@@ -1,2 +1,2 @@
 [default.databases.my_db]
-url = { env = "DATABASE_URL" }
+url = "mysql://root:password@localhost:3306/character_db"

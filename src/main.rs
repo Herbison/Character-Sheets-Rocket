@@ -1,7 +1,6 @@
-#[macro_use] extern crate rocket;
-use rocket::fairing::AdHoc;
-use rocket_db_pools::{Database, Connection};
-use rocket_db_pools::sqlx::{self, MySqlPool};
+use rocket::{get, launch, routes};
+use rocket_db_pools::{Database};
+use rocket_db_pools::sqlx::MySqlPool;
 use dotenv::dotenv;
 
 #[derive(Database)]
@@ -14,11 +13,10 @@ fn index() -> &'static str {
 }
 
 #[launch]
-fn rocket() -> _ {
+fn rocket() -> rocket::Rocket<rocket::Build> {
     dotenv().ok();
 
     rocket::build()
         .attach(MyDb::init())
-        .attach(AdHoc::config::<MyDb>())
         .mount("/", routes![index])
 }
